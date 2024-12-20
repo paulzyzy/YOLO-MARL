@@ -8,21 +8,9 @@ In YOLO-MARL/src/config/default.yaml, you need to set use_llm by yourself. False
 
 All the baselines we used here are based on [Epymarl](https://github.com/uoe-agents/epymarl). For the denpendencies, you could also refer to Epymarl and then install Openai or Claude dependencies:
 ```sh
-python src/main.py --config=qmix --env-config=sc2 with env_args.map_name="3s5z"
-```
-
-By default, YOLO-MARL runs experiments with common rewards (as done previously). To run an experiment with individual rewards for all agents, set `common_reward=False`. For example to run MAPPO in a LBF task with individual rewards:
-```sh
 pip install openai #If you want to use ChatGPT for your LLM API
 pip install anthropic #If you want to use Claude for your LLM API
 ```
-When using the `common_reward=True` setup in environments which naturally provide individual rewards, by default we scalarise the rewards into a common reward by summing up all rewards. This is now configurable and we support the mean operation as an alternative scalarisation. To use the mean scalarisation, set `reward_scalarisation="mean"`.
-
-### Weights and Biases (W&B) Logging
-We now support logging to W&B! To log data to W&B, you need to install the library with `pip install wandb` and setup W&B (see their [documentation](https://docs.wandb.ai/quickstart)). After, follow [our instructions](#weights-and-biases).
-
-### Plotting script
-We have added a simple plotting script under `plot_results.py` to load data from sacred logs and visualise them for executed experiments. For more details, see [the documentation here](#plotting).
 
 # Table of Contents
 - [Extended Python MARL framework - EPyMARL](#extended-python-marl-framework---epymarl)
