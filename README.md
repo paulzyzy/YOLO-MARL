@@ -1,19 +1,6 @@
-# Extended Python MARL framework - EPyMARL
-
-EPyMARL is  an extension of [PyMARL](https://github.com/oxwhirl/pymarl), and includes
-- **New!** Support for training in environments with individual rewards for all agents (for all algorithms that support such settings)
-- **New!** Updated EPyMARL to use maintained [Gymnasium](https://gymnasium.farama.org/index.html) library instead of deprecated OpenAI Gym version 0.21.
-- **New!** Support for new environments: native integration of [PettingZoo](https://pettingzoo.farama.org/), [matrix games](https://github.com/uoe-agents/matrix-games), [SMACv2](https://github.com/oxwhirl/smacv2), and [SMAClite](https://github.com/uoe-agents/smaclite)
-- **New!** Support for logging to [weights and biases (W&B)](https://wandb.ai/)
-- **New!** We added a simple plotting script to visualise run data
-- Additional algorithms (IA2C, IPPO, MADDPG, MAA2C and MAPPO)
-- Option for no-parameter sharing between agents (original PyMARL only allowed for parameter sharing)
-- Flexibility with extra implementation details (e.g. hard/soft updates, reward standarization, and more)
-- Consistency of implementations between different algorithms (fair comparisons)
+# YOLO-MARL: You Only LLM Once for Multi-Agent Reinforcement Learning
 
 See our blog post here: https://agents.inf.ed.ac.uk/blog/epymarl/
-
-## Update as of *July 2024*!
 
 ### Update to Gymnasium
 It became increasingly difficult to install and rely on the deprecated OpenAI Gym version 0.21 EPyMARL previously depended on, so we moved EPyMARL to use the maintained [Gymnasium](https://gymnasium.farama.org/index.html) library and API. This move required updating of several environments that were built to work with EPyMARL's `gymma` wrapper, including [level-based foraging](https://github.com/uoe-agents/lb-foraging) and [multi-robot warehouse](https://github.com/uoe-agents/robotic-warehouse). Alongside this update to EPyMARL, we therefore also updated these environments as well as [SMAClite](https://github.com/uoe-agents/smaclite), [matrix games](https://github.com/uoe-agents/matrix-games), and wrote wrappers to maintain compatibility with [SMAC](https://github.com/oxwhirl/smac) and added integration for [SMACv2](https://github.com/oxwhirl/smacv2). We hope these changes will simplify integration of new environments and ensure that EPyMARL remains usable for a longer time.
