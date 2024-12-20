@@ -1,6 +1,6 @@
 # YOLO-MARL: You Only LLM Once for Multi-Agent Reinforcement Learning
 
-This is the official repository for the paper YOLO-MARL: You Only LLM Once for Multi-agent Reinforcement Learning [arxiv](https://arxiv.org/abs/2410.03997).
+This is the official repository for the paper ["YOLO-MARL: You Only LLM Once for Multi-agent Reinforcement Learning"](https://arxiv.org/abs/2410.03997).
 
 ![Framework Diagram](https://github.com/paulzyzy/YOLO-MARL/blob/master/framework.png)
 
