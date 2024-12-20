@@ -1,10 +1,20 @@
 # YOLO-MARL: You Only LLM Once for Multi-Agent Reinforcement Learning
 
-This is the official github repo for paper YOLO-MARL: You Only LLM Once for Multi-agent Reinforcement Learning [arxiv](https://arxiv.org/abs/2410.03997)
+This is the official repository for the paper YOLO-MARL: You Only LLM Once for Multi-agent Reinforcement Learning [arxiv](https://arxiv.org/abs/2410.03997).
+
+YOLO-MARL supports both ChatGPT and Claude. Please put your api KEY in the YOLO-MARL/ and name it claude_KEY.txt or openai_KEY.txt.
+
+In YOLO-MARL/src/config/default.yaml, you need to set use_llm by yourself. False for running the MARL baselines and True for running the YOLO-MARL method.
+
+All the baselines we used here are based on [Epymarl](https://github.com/uoe-agents/epymarl). For the denpendencies, you could also refer to Epymarl and then install Openai or Claude dependencies:
+```sh
+python src/main.py --config=qmix --env-config=sc2 with env_args.map_name="3s5z"
+```
 
 By default, YOLO-MARL runs experiments with common rewards (as done previously). To run an experiment with individual rewards for all agents, set `common_reward=False`. For example to run MAPPO in a LBF task with individual rewards:
 ```sh
-python src/main.py --config=mappo --env-config=gymma with env_args.time_limit=50 env_args.key="lbforaging:Foraging-8x8-2p-3f-v3" common_reward=False
+pip install openai #If you want to use ChatGPT for your LLM API
+pip install anthropic #If you want to use Claude for your LLM API
 ```
 When using the `common_reward=True` setup in environments which naturally provide individual rewards, by default we scalarise the rewards into a common reward by summing up all rewards. This is now configurable and we support the mean operation as an alternative scalarisation. To use the mean scalarisation, set `reward_scalarisation="mean"`.
 
@@ -225,8 +235,5 @@ The plotting script provided as `plot_results.py` supports plotting of any logge
 
 If multiple configs of the same algorithm exist within the loaded data and you only want to plot the best config per algorithm, then add the `--best_per_alg` argument! If this argument is not set, the script will visualise all configs of each (filtered) algorithm and show the values of the hyperparameter config that differ across all present configs in the legend.
 
-# Citing EPyMARL and PyMARL
+# Citing YOLO-MARL
 
-The Extended PyMARL (EPyMARL) codebase was used in [Benchmarking Multi-Agent Deep Reinforcement Learning Algorithms in Cooperative Tasks](https://arxiv.org/abs/2006.07869).
-
-*Georgios Papoudakis, Filippos Christianos, Lukas Schäfer, & Stefano V. Albrecht. Benchmarking Multi-Agent Deep Reinforcement Learning Algorithms in Cooperative Tasks, Proceedings of the Neural Information Processing Systems Track on Datasets and Benchmarks (NeurIPS), 2021*
