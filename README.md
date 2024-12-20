@@ -1,22 +1,8 @@
 # YOLO-MARL: You Only LLM Once for Multi-Agent Reinforcement Learning
 
-See our blog post here: https://agents.inf.ed.ac.uk/blog/epymarl/
+This is the official github repo for paper YOLO-MARL: You Only LLM Once for Multi-agent Reinforcement Learning [arxiv](https://arxiv.org/abs/2410.03997)
 
-### Update to Gymnasium
-It became increasingly difficult to install and rely on the deprecated OpenAI Gym version 0.21 EPyMARL previously depended on, so we moved EPyMARL to use the maintained [Gymnasium](https://gymnasium.farama.org/index.html) library and API. This move required updating of several environments that were built to work with EPyMARL's `gymma` wrapper, including [level-based foraging](https://github.com/uoe-agents/lb-foraging) and [multi-robot warehouse](https://github.com/uoe-agents/robotic-warehouse). Alongside this update to EPyMARL, we therefore also updated these environments as well as [SMAClite](https://github.com/uoe-agents/smaclite), [matrix games](https://github.com/uoe-agents/matrix-games), and wrote wrappers to maintain compatibility with [SMAC](https://github.com/oxwhirl/smac) and added integration for [SMACv2](https://github.com/oxwhirl/smacv2). We hope these changes will simplify integration of new environments and ensure that EPyMARL remains usable for a longer time.
-
-To use the legacy version of EPyMARL with OpenAI Gym version 0.21, please use the previous version `v1.0.0` of EPyMARL.
-
-For more information on how to install and run experiments in these environments, see [the documentation here](#installation--run-instructions).
-
-
-### Support for training in environments with individual rewards for all agents
-Previously EPyMARL only supported training of MARL algorithms in common-reward environments. To support environments which naturally provide individual rewards for agents (e.g. LBF and RWARE), we previously scalarised the rewards of all agents using a sum operation to obtain a single common reward that was then given to all agents. We are glad to announce that EPyMARL now supports training in general-sum reward environments (for all algorithms that are sound to train in general-sum reward settings)!
-
-- **Algorithms that support general-sum reward envs**: IA2C, IPPO, MAA2C, MAPPO, IQL, PAC
-- Algorithms that only support common-reward envs: COMA, VDN, QMIX, QTRAN
-
-By default, EPyMARL runs experiments with common rewards (as done previously). To run an experiment with individual rewards for all agents, set `common_reward=False`. For example to run MAPPO in a LBF task with individual rewards:
+By default, YOLO-MARL runs experiments with common rewards (as done previously). To run an experiment with individual rewards for all agents, set `common_reward=False`. For example to run MAPPO in a LBF task with individual rewards:
 ```sh
 python src/main.py --config=mappo --env-config=gymma with env_args.time_limit=50 env_args.key="lbforaging:Foraging-8x8-2p-3f-v3" common_reward=False
 ```
@@ -27,25 +13,6 @@ We now support logging to W&B! To log data to W&B, you need to install the libra
 
 ### Plotting script
 We have added a simple plotting script under `plot_results.py` to load data from sacred logs and visualise them for executed experiments. For more details, see [the documentation here](#plotting).
-
-
-## Update as of *15th July 2023*!
-We have released our _Pareto Actor-Critic_ algorithm, accepted in TMLR, as part of the E-PyMARL source code. 
-
-Find the paper here: https://arxiv.org/abs/2209.14344
-
-Pareto-AC (Pareto-AC), is an actor-critic algorithm that utilises a simple principle of no-conflict games (and, in turn, cooperative games with identical rewards): each agent can assume the others will choose actions that will lead to a Pareto-optimal equilibrium.
-Pareto-AC works especially well in environments with multiple suboptimal equilibria (a problem is also known as relative over-generalisation). We have seen impressive results in a diverse set of multi-agent games with suboptimal equilibria, including the matrix games of the MARL benchmark, but also LBF variations with high penalties.
-
-PAC introduces additional dependencies specified in `pac_requirements.txt`. To install its dependencies, run
-```sh
-pip install -r pac_requirements.txt
-```
-
-To run Pareto-AC in an environment, for example the Penalty game, you can run:
-```sh
-python src/main.py --config=pac_ns --env-config=gymma with env_args.time_limit=1 env_args.key=matrixgames:penalty-100-nostate-v0
-```
 
 # Table of Contents
 - [Extended Python MARL framework - EPyMARL](#extended-python-marl-framework---epymarl)
@@ -263,37 +230,3 @@ If multiple configs of the same algorithm exist within the loaded data and you o
 The Extended PyMARL (EPyMARL) codebase was used in [Benchmarking Multi-Agent Deep Reinforcement Learning Algorithms in Cooperative Tasks](https://arxiv.org/abs/2006.07869).
 
 *Georgios Papoudakis, Filippos Christianos, Lukas Schäfer, & Stefano V. Albrecht. Benchmarking Multi-Agent Deep Reinforcement Learning Algorithms in Cooperative Tasks, Proceedings of the Neural Information Processing Systems Track on Datasets and Benchmarks (NeurIPS), 2021*
-
-In BibTeX format:
-
-```tex
-@inproceedings{papoudakis2021benchmarking,
-   title={Benchmarking Multi-Agent Deep Reinforcement Learning Algorithms in Cooperative Tasks},
-   author={Georgios Papoudakis and Filippos Christianos and Lukas Schäfer and Stefano V. Albrecht},
-   booktitle = {Proceedings of the Neural Information Processing Systems Track on Datasets and Benchmarks (NeurIPS)},
-   year={2021},
-   url = {http://arxiv.org/abs/2006.07869},
-   openreview = {https://openreview.net/forum?id=cIrPX-Sn5n},
-   code = {https://github.com/uoe-agents/epymarl},
-}
-```
-
-If you use the original PyMARL in your research, please cite the [SMAC paper](https://arxiv.org/abs/1902.04043).
-
-*M. Samvelyan, T. Rashid, C. Schroeder de Witt, G. Farquhar, N. Nardelli, T.G.J. Rudner, C.-M. Hung, P.H.S. Torr, J. Foerster, S. Whiteson. The StarCraft Multi-Agent Challenge, CoRR abs/1902.04043, 2019.*
-
-In BibTeX format:
-
-```tex
-@article{samvelyan19smac,
-  title = {{The} {StarCraft} {Multi}-{Agent} {Challenge}},
-  author = {Mikayel Samvelyan and Tabish Rashid and Christian Schroeder de Witt and Gregory Farquhar and Nantas Nardelli and Tim G. J. Rudner and Chia-Man Hung and Philiph H. S. Torr and Jakob Foerster and Shimon Whiteson},
-  journal = {CoRR},
-  volume = {abs/1902.04043},
-  year = {2019},
-}
-```
-
-# License
-All the source code that has been taken from the PyMARL repository was licensed (and remains so) under the Apache License v2.0 (included in `LICENSE` file).
-Any new code is also licensed under the Apache License v2.0
