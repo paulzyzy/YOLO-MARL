@@ -23,6 +23,8 @@ How to use YOLO-MARL to generate planning function for testing environment:
 python YOLO-MARL/src/prompts/codeGeneration.py
 ```
 
+For YOLO-MARL training, please set the hyperparameters llm_reward and penalty in YOLO-MARL/src/envs/llm_wrapper.py for mixed_constant.
+
 LBF:
 ```sh
 python src/main.py --config=qmix --env-config=gymma with env_args.time_limit=50 env_args.key="lbforaging:Foraging-8x8-2p-3f-v3"
@@ -37,7 +39,7 @@ python src/main.py --config=qmix --env-config=gymma with env_args.time_limit=50 
 
 RWARE:
 ```sh
-python src/main.py --config=qmix --env-config=gymma with env_args.time_limit=500 env_args.key="rware:rware-tiny-2ag-v2"
+python src/main.py --config=mappo --env-config=gymma with env_args.time_limit=500 env_args.key="rware:rware-tiny-2ag-v2"
 ```
 
 MPE:
@@ -85,4 +87,4 @@ Below, we provide the base environment and key / map name for all the environmen
   - 3s_vs_5z: `3s_vs_5z`
 
 # Citing YOLO-MARL
-
+We are still working on SMAC and hope we will update the SMAC part soon.
