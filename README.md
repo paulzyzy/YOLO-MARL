@@ -2,6 +2,8 @@
 
 This is the official repository for the paper YOLO-MARL: You Only LLM Once for Multi-agent Reinforcement Learning [arxiv](https://arxiv.org/abs/2410.03997).
 
+![Framework Diagram](https://github.com/paulzyzy/YOLO-MARL/blob/master/framework.png)
+
 YOLO-MARL supports both ChatGPT and Claude. Please put your api KEY in the YOLO-MARL/ and name it claude_KEY.txt or openai_KEY.txt.
 
 In YOLO-MARL/src/config/default.yaml, you need to set use_llm by yourself. False for running the MARL baselines and True for running the YOLO-MARL method.
