@@ -1,0 +1,38 @@
+Based on the environment description and game rules provided, here's a concise strategy for the two agents in the RWARE environment:
+
+Goal: Efficiently deliver empty shelves to workstations and return them to designated locations.
+
+Approach:
+
+1. Exploration and Task Assignment:
+   - Agent 1: Focus on finding and delivering empty shelves to workstations.
+   - Agent 2: Prioritize returning delivered shelves to return locations.
+
+2. Coordination Protocol:
+   - Agents communicate their current tasks and locations to avoid conflicts.
+   - If both agents are free, they switch roles to balance workload.
+
+3. Empty Shelf Delivery Process:
+   a. Agent 1 explores the warehouse to locate empty shelves.
+   b. Once found, it loads the shelf and navigates to the nearest workstation.
+   c. After unloading, Agent 1 immediately starts searching for the next empty shelf.
+
+4. Shelf Return Process:
+   a. Agent 2 monitors workstations for newly delivered shelves.
+   b. It loads the shelf from the workstation and returns it to a designated return location.
+   c. After unloading, Agent 2 checks other workstations or assists in exploration if needed.
+
+5. Collision Avoidance:
+   - Agents use a priority system when paths conflict:
+     * Loaded agents have priority over unloaded agents.
+     * If both are loaded or unloaded, the agent blocking others gets priority.
+
+6. Adaptive Behavior:
+   - If one agent completes its task queue, it assists the other agent in its current objective.
+   - Agents switch roles periodically to ensure balanced task distribution.
+
+7. Optimization Techniques:
+   - Agents memorize the locations of empty shelves for future reference.
+   - They calculate optimal paths to minimize travel time between tasks.
+
+By following this strategy, the agents should efficiently coordinate their efforts to deliver empty shelves to workstations and return them to designated locations, maximizing their productivity in the warehouse environment.

@@ -1,0 +1,6 @@
+name: lbf_2p_2f_coop
+n_agents: 2
+n_food: 2
+limit: 50
+
+# description: This Level-based Foraging (LBF) is a multi-agent environment for RL. Agents navigate a grid world and collect food by cooperating with other agents. Agents can navigate the environment and can attempt to collect food placed next to them. The collection of food is successful only if all agents attempt to load it simultaneously.

@@ -1,0 +1,5 @@
+<scenario_think>
+1, All agents coordinate together to cover all landmarks.
+2, Need to think how to assign landmarks to each agent to minimal total distance.
+3, If the agents' actions follow the llm suggestions, reward should be 1.
+</scenario_think>

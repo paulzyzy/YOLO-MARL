@@ -1,0 +1,4 @@
+name: mpe_simple_spread_v3_3
+n_agents: 3
+n_landmarks: 3
+limit: 25

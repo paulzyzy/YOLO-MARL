@@ -1,0 +1,13 @@
+def planning_function(processed_state):
+    """
+    Determines optimal tasks for each agent based on the current state.
+    
+    Args:
+        processed_state: 
+            Dict of list of (n, ): dict('agent_0', 'agent_1', 'agent_2)
+                List: Agent : (m, ) [landmark0_2_agent, landmark1_2_agent, landmark2_2_agent, other_agent_2_agent, other_agent_2_agent]
+
+    Returns:
+        dict: Optimal tasks for each agent ('No op','Landmark_0','Landmark_1','Landmark_2')
+    """
+    return llm_tasks

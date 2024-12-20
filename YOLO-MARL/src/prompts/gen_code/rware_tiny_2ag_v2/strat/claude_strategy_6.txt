@@ -1,0 +1,44 @@
+Based on the environment description and game rules provided, here's a concise strategy for the multi-robot warehouse (RWARE) environment:
+
+Goal: Efficiently deliver empty shelves to workstations and return them to designated locations using two coordinated agents.
+
+Approach:
+
+1. Task Assignment:
+   - Agent 1: Focus on finding and delivering empty shelves
+   - Agent 2: Prioritize returning delivered shelves
+
+2. Exploration and Shelf Detection:
+   - Both agents start with random exploration
+   - When an empty shelf is detected, communicate its location to both agents
+
+3. Delivery Process:
+   - Agent 1:
+     a. Navigate to the empty shelf
+     b. Load the shelf (if not already carrying one)
+     c. Transport to the nearest workstation
+     d. Unload the shelf
+     e. Communicate completion to Agent 2
+
+   - Agent 2:
+     a. Once notified of a delivery, navigate to the workstation
+     b. Load the shelf (after a short delay to ensure it's empty)
+     c. Transport to the return location
+     d. Unload the shelf
+     e. Resume exploration or move to the next known empty shelf location
+
+4. Coordination and Adaptation:
+   - Agents constantly share information about their current tasks and locations
+   - If one agent is blocked, the other adjusts its path to avoid collision
+   - If both agents are free, they split the warehouse into two sections for efficient exploration
+
+5. Scenario Handling:
+   - If an agent is not carrying a shelf: Prioritize finding and loading empty shelves
+   - If an agent is carrying an empty shelf: Navigate to the nearest workstation
+   - If an agent is carrying a non-empty shelf (error state): Return it to the nearest valid location and resume empty shelf search
+
+6. Continuous Improvement:
+   - Agents learn and update their strategies based on successful deliveries and efficient pathfinding
+   - Regularly reassess task distribution based on current warehouse state and agent positions
+
+By following this strategy, the two agents should efficiently coordinate their efforts to find, deliver, and return empty shelves while adapting to the dynamic environment of the warehouse.

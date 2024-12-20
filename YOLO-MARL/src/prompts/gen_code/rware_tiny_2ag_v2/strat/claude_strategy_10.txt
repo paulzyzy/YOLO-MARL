@@ -1,0 +1,44 @@
+Based on the environment description and game rules provided, I'll outline a strategy for the multi-agent reinforcement learning scenario in the RWARE environment. Here's a concise and actionable set of instructions:
+
+1. Goal: Efficiently deliver empty shelves to workstations and return them to the designated return location using two agents.
+
+2. Problem: Coordinate two agents to locate, transport, and return empty shelves while avoiding conflicts and optimizing their movements.
+
+3. Approach / Methodology:
+   a. Explore and locate empty shelves
+   b. Transport empty shelves to workstations
+   c. Return shelves to the designated return location
+   d. Avoid conflicts between agents
+
+4. Scenarios and Adaptations:
+   a. No empty shelves observed: Both agents explore randomly until an empty shelf is found
+   b. One empty shelf observed: One agent moves to pick it up, while the other continues exploring
+   c. Multiple empty shelves: Agents coordinate to pick up different shelves
+   d. One agent carrying, one empty shelf: Free agent picks up the shelf
+   e. One agent carrying, multiple shelves: Free agent picks up the nearest shelf
+   f. Conflict avoidance: Prioritize the agent blocking others; otherwise, use arbitrary selection
+
+5. Task Breakdown:
+   Agent 1 and Agent 2 will alternate between the following tasks:
+   a. Random Explore: Search for empty shelves when none are visible
+   b. Empty Shelf: Move towards and pick up an empty shelf
+   c. Workstation: Deliver the shelf to the nearest workstation
+   d. Return: Take the shelf back to the return location
+
+   Coordination:
+   - Agents communicate their current task and location
+   - When multiple empty shelves are visible, agents target different shelves
+   - If one agent is stuck, the other agent prioritizes clearing the path
+
+Instructions for each agent:
+
+1. Start with Random Explore if no empty shelves are visible
+2. Switch to Empty Shelf task when an unassigned empty shelf is observed
+3. Once loaded, switch to Workstation task and deliver the shelf
+4. After delivery, switch to Return task and take the shelf back
+5. Repeat the cycle, adapting to the current scenario
+6. Continuously communicate status and intentions to the other agent
+7. Yield to the other agent if it's blocking your path
+8. If stuck, request assistance from the other agent
+
+By following these instructions, the agents should efficiently coordinate their actions to deliver and return empty shelves while minimizing conflicts and optimizing their movements in the warehouse environment.

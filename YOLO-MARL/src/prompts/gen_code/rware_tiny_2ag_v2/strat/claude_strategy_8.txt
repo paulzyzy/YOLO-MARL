@@ -1,0 +1,57 @@
+Based on the environment description and game rules provided, here's a strategic approach for the multi-agent reinforcement learning task in the RWARE environment:
+
+1. Goal: Efficiently deliver empty shelves to workstation locations and return them to designated return locations using two coordinated agents.
+
+2. Problem: Agents need to navigate the warehouse, locate empty shelves, avoid collisions, and coordinate their actions to maximize efficiency in shelf delivery and return.
+
+3. Approach / Methodology:
+   a. Explore and locate empty shelves
+   b. Coordinate agent roles for pickup and delivery
+   c. Navigate to workstation locations
+   d. Return shelves to designated locations
+   e. Adapt to changing environment states
+
+4. Scenarios and Adaptations:
+   - No empty shelves observed: Both agents explore randomly until an empty shelf is detected
+   - Single empty shelf: One agent pursues the shelf while the other continues exploring
+   - Multiple empty shelves: Agents coordinate to target different shelves
+   - One agent carrying, one empty shelf: Carrying agent proceeds to workstation, free agent pursues the empty shelf
+   - One agent carrying, multiple shelves: Carrying agent proceeds to workstation, free agent targets nearest empty shelf
+
+5. Task Breakdown:
+   Agent 1 and Agent 2 will alternate between these roles as needed:
+
+   Seeker Role:
+   - Explore the warehouse to locate empty shelves
+   - When an empty shelf is found, move towards it and load it
+   - Communicate the location of additional empty shelves to the other agent
+
+   Carrier Role:
+   - Once loaded with an empty shelf, navigate to the nearest workstation
+   - After delivery, navigate to the return location
+   - Return the shelf and prepare for the next task
+
+   Coordination:
+   - Agents communicate their current status (exploring, carrying, delivering, returning)
+   - When multiple empty shelves are available, agents target different shelves to maximize efficiency
+   - If one agent is stuck, the other agent prioritizes completing its current task before assisting
+
+Instructions for implementation:
+
+1. Initialize both agents in exploration mode.
+2. Continuously update and share the known locations of empty shelves.
+3. Assign roles based on the current scenario:
+   - If no empty shelves: Both agents explore
+   - If one empty shelf: Nearest agent becomes Seeker, other continues exploring
+   - If multiple empty shelves: Both become Seekers, targeting different shelves
+4. Once an agent becomes a Carrier:
+   - Navigate to the nearest workstation using the most efficient path
+   - After delivery, proceed to the return location
+   - After returning the shelf, switch back to Seeker role
+5. Implement collision avoidance:
+   - Loaded agents use corridors and avoid obstacles
+   - Unloaded agents can move beneath shelves when necessary
+6. Optimize pathfinding to minimize the number of rotations and forward movements.
+7. Continuously reassess and adapt roles based on the changing environment and the other agent's status.
+
+By following these instructions, the agents should be able to efficiently coordinate their actions to locate, deliver, and return empty shelves in the warehouse environment.

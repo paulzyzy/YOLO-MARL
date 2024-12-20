@@ -1,0 +1,25 @@
+def planning_function(processed_state):
+    """
+    Determines optimal tasks for each agent based on the current state.
+    
+    Args:
+         A dictionary containing global information for each agent and the positions of empty shelves observed by any agent.
+            agent_infos:
+                A list of dictionaries, one per agent, containing:
+                    - 'location': Current location of the agent.
+                    - 'is_carrying_shelf': Whether the agent is carrying a shelf.
+                    - 'direction': Current heading direction ('up', 'down', 'left', 'right').
+                    - 'can_move_forward': Whether the agent can move forward.
+                    - 'can_place_shelf': Whether the agent can place a shelf at the current location.
+                    - 'status of carried shelf': True if the carried shelf is not empty (initialized as False).
+            empty_shelves_pos:
+                List of positions of empty shelves observed by any agent. If the list is empty, then no empty shelf is observed til now.
+            return location:
+                List of positions where shelves can be returned (initialized as an empty list).
+            workstation location:
+                List of positions where empty shelves need to be delivered.
+
+    Returns:
+        dict: Optimal tasks for each agent ('random explore','empty shelf','workstation','return')
+    """
+    return llm_tasks

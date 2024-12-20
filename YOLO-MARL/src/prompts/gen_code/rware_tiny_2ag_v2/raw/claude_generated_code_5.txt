@@ -1,0 +1,109 @@
+I understand the task and will generate the planning and reward functions based on the provided information and guidelines. Let's think through this step-by-step:
+
+1. Information in processed_states:
+   - Agent information (location, carrying status, direction, movement ability)
+   - Empty shelf positions
+   - Return locations
+   - Workstation locations
+
+2. Strategy analysis:
+   - Prioritize finding and delivering empty shelves
+   - Efficiently return shelves to designated locations
+   - Coordinate agents to avoid conflicts and maximize efficiency
+   - Balance exploration and targeted movement
+
+Now, I'll generate the two functions:
+
+<code>
+def planning_function(processed_state):
+    """
+    Determines optimal tasks for each agent based on the current state.
+    
+    Args:
+        processed_state: A dictionary containing global information for each agent and the positions of empty shelves observed by any agent.
+    
+    Returns:
+        dict: Optimal tasks for each agent ('random explore','empty shelf','workstation','return')
+    """
+    agent_infos = processed_state['agent_infos']
+    empty_shelves = processed_state['empty_shelves_pos']
+    workstations = processed_state['workstation location']
+    return_locations = processed_state.get('return location', [])
+    
+    tasks = {}
+    
+    for i, agent in enumerate(agent_infos):
+        agent_name = f'agent_{i}'
+        
+        if not agent['is_carrying_shelf']:
+            if empty_shelves:
+                nearest_shelf = min(empty_shelves, key=lambda shelf: sum(abs(a - b) for a, b in zip(agent['location'], shelf)))
+                tasks[agent_name] = 'empty shelf'
+            else:
+                tasks[agent_name] = 'random explore'
+        elif agent['is_carrying_shelf'] and not agent['status of carried shelf']:
+            tasks[agent_name] = 'workstation'
+        elif agent['is_carrying_shelf'] and agent['status of carried shelf']:
+            if return_locations:
+                tasks[agent_name] = 'return'
+            else:
+                tasks[agent_name] = 'random explore'
+    
+    return tasks
+
+def compute_reward(processed_state, llm_actions, actions):
+    """
+    Calculate rewards based on the tasks assigned and their outcomes.
+    
+    Args:
+        processed_state: returned from function process_state(state, p, f)
+        llm_actions (dict): dictionary of list of integers which means the suggest actions from llm for each agent.
+        actions (dict): dictionary of a integer action that actually perform by each agent.
+        
+    Returns:
+        reward: Dict containing rewards for each agent.
+    """
+    rewards = {}
+    agent_infos = processed_state['agent_infos']
+    workstations = processed_state['workstation location']
+    return_locations = processed_state.get('return location', [])
+    
+    for agent_name, agent_action in actions.items():
+        agent_index = int(agent_name.split('_')[1])
+        agent = agent_infos[agent_index]
+        reward = 0
+        
+        # Reward for following LLM suggestions
+        if agent_action in llm_actions[agent_name]:
+            reward += 0.1
+        
+        # Reward for productive actions
+        if agent_action == 4:  # Load/Unload action
+            if agent['location'] in processed_state['empty_shelves_pos'] and not agent['is_carrying_shelf']:
+                reward += 1  # Picking up an empty shelf
+            elif agent['location'] in workstations and agent['is_carrying_shelf'] and not agent['status of carried shelf']:
+                reward += 2  # Delivering an empty shelf to workstation
+            elif agent['location'] in return_locations and agent['is_carrying_shelf'] and agent['status of carried shelf']:
+                reward += 1.5  # Returning a shelf
+        
+        # Penalty for unnecessary movements when carrying a shelf
+        if agent['is_carrying_shelf'] and agent_action in [1, 2, 3]:
+            reward -= 0.1
+        
+        rewards[agent_name] = reward
+    
+    return rewards
+</code>
+
+These functions aim to coordinate the agents effectively:
+
+1. The planning function prioritizes finding and delivering empty shelves, then returning them. It assigns tasks based on the agent's current state and the environment.
+
+2. The reward function encourages:
+   - Following LLM suggestions
+   - Picking up empty shelves
+   - Delivering empty shelves to workstations
+   - Returning shelves to return locations
+   - Efficient movement (by penalizing unnecessary movements when carrying shelves)
+
+This approach should lead to effective cooperation between agents in completing the warehouse tasks.

@@ -1,0 +1,57 @@
+Based on the environment description and game rules provided, I'll outline a strategic approach for the two agents in the RWARE environment:
+
+Goal: Efficiently pick up empty shelves, deliver them to the workstation location, and return them to the designated return location.
+
+Approach:
+
+1. Exploration and Task Assignment:
+   - Agent 1 focuses on the left side of the warehouse
+   - Agent 2 focuses on the right side of the warehouse
+   - Both agents start with random exploration in their assigned areas
+
+2. Empty Shelf Detection:
+   - While exploring, agents scan for empty shelves
+   - Upon detecting an empty shelf, switch to "empty shelf" task
+
+3. Pickup and Delivery:
+   - Move beneath the empty shelf
+   - Load the shelf
+   - Navigate to the workstation location using corridors
+   - Unload the shelf at the workstation
+
+4. Return Process:
+   - After delivery, switch to "return" task
+   - Navigate to the return location
+   - Pick up the previously delivered shelf
+   - Return it to an available empty spot in the warehouse
+
+5. Coordination and Adaptation:
+   - Agents communicate their current tasks and locations
+   - If one agent is blocked, the other agent prioritizes clearing the path
+   - If both agents are near the same empty shelf, the closer one proceeds while the other continues exploring
+
+Scenarios and Adaptations:
+
+1. Both agents near same empty shelf:
+   - Calculate distance for each agent
+   - Closer agent proceeds to pickup
+   - Other agent resumes exploration in its assigned area
+
+2. One agent blocked while carrying shelf:
+   - Blocked agent communicates its position
+   - Free agent prioritizes clearing the path if nearby
+   - If free agent is far, blocked agent waits and attempts to move in next turn
+
+3. Multiple empty shelves detected:
+   - Agents coordinate to efficiently divide tasks
+   - Each agent targets the nearest empty shelf in their assigned area
+
+4. No empty shelves visible:
+   - Both agents continue random exploration in their assigned areas
+   - Periodically switch exploration patterns (e.g., clockwise to counter-clockwise)
+
+5. Workstation or return location blocked:
+   - Agent carrying shelf waits near the location
+   - Other agent prioritizes clearing the blockage if possible
+
+By following this strategy, the agents should efficiently locate, deliver, and return empty shelves while adapting to various scenarios that may arise in the warehouse environment.

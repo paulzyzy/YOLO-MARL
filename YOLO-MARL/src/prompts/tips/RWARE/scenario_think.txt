@@ -1,0 +1,5 @@
+<different scenario_think>
+1, Both agents are trying to approach to their target food.
+2, One agent is near it's target food, the other agent is still trying to approach to it's target food.
+3, Both agents are near their target food.
+</different scenario_think>

@@ -1,0 +1,59 @@
+Based on the environment description and game rules provided, I'll outline a strategic approach for the two agents in this RWARE environment:
+
+Goal: Efficiently pick up empty shelves, deliver them to the workstation location, and return them to the designated return location.
+
+Approach:
+
+1. Initial Exploration and Task Assignment:
+   - Both agents start with random exploration to map the warehouse layout.
+   - Agents communicate their positions and discovered empty shelves.
+   - Assign tasks based on proximity: closest agent to an empty shelf takes the "empty shelf" task.
+
+2. Empty Shelf Retrieval:
+   - Agent assigned "empty shelf" task navigates to the nearest empty shelf.
+   - Use corridors when unloaded, moving beneath shelves when possible for efficiency.
+   - Once beneath the shelf at a predesignated location, perform the loading action.
+
+3. Delivery to Workstation:
+   - Loaded agent navigates to the workstation using corridors only.
+   - Other agent continues exploration or moves to the next nearest empty shelf.
+   - Unload the shelf at the workstation location.
+
+4. Return to Return Location:
+   - After unloading at workstation, agent navigates to the return location.
+   - Use corridors, as the agent is now considered loaded again.
+   - Unload the shelf at the return location.
+
+5. Task Cycling and Coordination:
+   - After completing a full cycle, agents reassess the environment.
+   - Communicate positions and switch roles if needed for efficiency.
+   - Repeat the process with newly requested empty shelves.
+
+Scenarios and Adaptations:
+
+1. Blocked Paths:
+   - If an agent encounters a blocked path, communicate to the other agent.
+   - Other agent pauses its task to create an alternative route if possible.
+
+2. Multiple Empty Shelves:
+   - Agents coordinate to handle multiple shelves efficiently.
+   - One agent focuses on delivery/return while the other prepares the next shelf.
+
+3. No Empty Shelves Found:
+   - Both agents switch to exploration mode until a new empty shelf is detected.
+
+4. Collision Avoidance:
+   - Agents communicate intended movements to avoid collisions.
+   - If collision is unavoidable, prioritize the agent blocking others.
+
+Task Breakdown:
+
+Agent 1:
+- Initial exploration of the left side of the warehouse.
+- Primary focus on "empty shelf" and "workstation" tasks.
+
+Agent 2:
+- Initial exploration of the right side of the warehouse.
+- Primary focus on "return" tasks and preparing next empty shelf.
+
+Both agents should be flexible and able to switch roles based on their current positions and the state of the environment. Continuous communication between agents is crucial for efficient coordination and task completion.

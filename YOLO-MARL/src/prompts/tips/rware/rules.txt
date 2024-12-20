@@ -1,0 +1,11 @@
+<Game rules>
+1. The agents can move beneath the shelves if not loaded. 
+2. The agents must use the corridors, avoiding any standing shelves if loaded.
+3. The action Left and Right allow each agent only to rotate.
+4. The action Forward allow each agent only to forward. 
+5. Loading/Unloading only works when an agent is beneath a shelf on one of the predesignated locations.
+6. When two or more agents attempt to move to the same location, prioritise the one that also blocks others. Otherwise, the selection is done arbitrarily. 
+7. When a requested shelf is brought to a workstation location, another empty shelf is uniformly sampled and added to the current requests.
+8. Agent only want to find and then load empty shelf if agent is not carrying the shelf.
+9. Success Condition: Agents deliver requested empty shelves to workstation location and back to the return location to return the previously delivered shelf.
+</Game rules>

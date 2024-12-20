@@ -1,0 +1,16 @@
+def compute_reward(processed_state, llm_actions, actions):
+    """
+    Calculate rewards based on the tasks assigned and their outcomes.
+    
+    Args:
+        processed_state: returned from function process_state(state, p, f)
+        llm_actions (dict): dictionary of list of integers which means the suggest actions from llm for each agent. E.g. {"agent_0": [2,3], "agent_1": [4],...}
+        actions (dict): dictionary of a integer action that actually perform by each agent. E.g. {"agent_0": 2, "agent_1": 4, ...}
+
+        **Note: the index of this action space is [no_action, move_left, move_right, move_down, move_up]**
+        
+    Returns:
+        reward: Dict containing rewards for each agent. For example: {'agent_0': reward1, 'agent_1', reward2, ...}
+    """
+    ...
+    return reward

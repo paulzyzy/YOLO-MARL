@@ -1,0 +1,10 @@
+defaults:
+- _self_
+- env: rware_tiny_2ag_v2
+- override hydra/output: local
+
+#model: gpt-4-turbo
+#model: gpt-4o
+# model: gpt-4o-2024-08-06
+model: claude-3-5-sonnet-20240620
+save_raw: True

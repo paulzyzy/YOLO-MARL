@@ -1,0 +1,116 @@
+Thank you for providing the detailed information about the environment, game rules, and function requirements. I'll think through this step-by-step and then generate the planning and reward functions as requested.
+
+Step 1: Analyzing the processed_state information
+The processed_state contains crucial information about:
+- Agent positions, carrying status, direction, and movement capabilities
+- Empty shelf positions
+- Return locations
+- Workstation locations
+
+This information will be vital for task assignment and reward calculation.
+
+Step 2: Strategizing for proper task assignment
+Given the environment description, an effective strategy would be:
+1. Prioritize empty shelf retrieval when available
+2. Coordinate agents to avoid conflicts when multiple empty shelves are present
+3. Guide loaded agents to workstations
+4. Direct agents to return locations after delivery
+5. Use random exploration when no specific tasks are available
+
+Step 3: Coordinating agents in the functions
+To ensure coordination:
+- In the planning function, assign tasks based on agent proximity to targets and their current status
+- In the reward function, incentivize following LLM suggestions and completing assigned tasks
+
+Now, I'll generate the two functions based on this analysis:
+
+<code>
+def planning_function(processed_state):
+    """
+    Determines optimal tasks for each agent based on the current state.
+    
+    Args:
+        processed_state: A dictionary containing global information for each agent and the positions of empty shelves observed by any agent.
+
+    Returns:
+        dict: Optimal tasks for each agent ('random explore','empty shelf','workstation','return')
+    """
+    llm_tasks = {}
+    agent_infos = processed_state['agent_infos']
+    empty_shelves = processed_state['empty_shelves_pos']
+    return_locations = processed_state['return location']
+    workstations = processed_state['workstation location']
+
+    # Sort empty shelves by distance to each agent
+    sorted_shelves = sorted(empty_shelves, key=lambda shelf: min(
+        sum(abs(a - b) for a, b in zip(shelf, agent['location'])) for agent in agent_infos
+    ))
+
+    for i, agent in enumerate(agent_infos):
+        agent_name = f"agent_{i}"
+        
+        if agent['is_carrying_shelf']:
+            if agent['status of carried shelf']:  # Carrying non-empty shelf
+                llm_tasks[agent_name] = "return"
+            else:  # Carrying empty shelf
+                llm_tasks[agent_name] = "workstation"
+        else:  # Not carrying a shelf
+            if sorted_shelves and i < len(sorted_shelves):
+                # Assign nearest unassigned empty shelf
+                llm_tasks[agent_name] = "empty shelf"
+            elif return_locations:
+                # Guide to nearest return location if available
+                llm_tasks[agent_name] = "return"
+            else:
+                llm_tasks[agent_name] = "random explore"
+
+    return llm_tasks
+
+def compute_reward(processed_state, llm_actions, actions):
+    """
+    Calculate rewards based on the tasks assigned and their outcomes.
+    
+    Args:
+        processed_state: returned from function process_state(state, p, f)
+        llm_actions (dict): dictionary of list of integers which means the suggest actions from llm for each agent.
+        actions (dict): dictionary of a integer action that actually perform by each agent.
+        
+    Returns:
+        reward: Dict containing rewards for each agent.
+    """
+    reward = {}
+    agent_infos = processed_state['agent_infos']
+
+    for i, (agent_name, action) in enumerate(actions.items()):
+        agent_info = agent_infos[i]
+        suggested_actions = llm_actions[agent_name]
+        
+        # Base reward
+        reward[agent_name] = 0
+        
+        # Reward for following LLM suggestion
+        if action in suggested_actions:
+            reward[agent_name] += 0.5
+        
+        # Reward for successful interactions
+        if action == 4:  # Load/Unload action
+            if agent_info['is_carrying_shelf']:
+                # Successfully loaded a shelf
+                reward[agent_name] += 1
+            elif any(agent_info['location'] == workstation for workstation in processed_state['workstation location']):
+                # Successfully delivered to workstation
+                reward[agent_name] += 2
+            elif any(agent_info['location'] == return_loc for return_loc in processed_state['return location']):
+                # Successfully returned a shelf
+                reward[agent_name] += 1.5
+        
+        # Penalty for unnecessary movements
+        if action in [1, 2, 3] and agent_info['is_carrying_shelf'] and not any(
+            agent_info['location'] == loc for loc in processed_state['workstation location'] + processed_state['return location']
+        ):
+            reward[agent_name] -= 0.1
+
+    return reward
+</code>
+
+These functions aim to create an effective coordination strategy between agents while following the given rules and objectives. The planning function assigns tasks based on the current state and agent positions, while the reward function encourages following LLM suggestions and completing key objectives like shelf retrieval, delivery, and return.

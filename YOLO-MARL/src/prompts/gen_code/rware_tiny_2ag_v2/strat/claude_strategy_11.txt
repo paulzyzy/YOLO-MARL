@@ -1,0 +1,64 @@
+Based on the environment description and game rules provided, I'll outline a strategic approach for the two agents in this warehouse scenario:
+
+Goal: Efficiently pick up empty shelves, deliver them to the workstation, and return them to the designated return location.
+
+Approach:
+
+1. Initial Exploration and Task Assignment:
+   - Both agents start with random exploration to map the warehouse layout.
+   - Agent 1 focuses on finding and delivering empty shelves.
+   - Agent 2 prioritizes returning delivered shelves.
+
+2. Empty Shelf Retrieval (Agent 1):
+   - Systematically search for empty shelves.
+   - When found, move beneath the shelf and load it.
+   - Navigate to the workstation using corridors (as loaded agents can't move beneath shelves).
+
+3. Workstation Delivery (Agent 1):
+   - Unload the empty shelf at the workstation.
+   - Communicate completion to Agent 2.
+   - Return to exploration/retrieval mode.
+
+4. Shelf Return (Agent 2):
+   - Once notified of a delivery, move to the workstation.
+   - Load the shelf that needs to be returned.
+   - Navigate to the return location and unload the shelf.
+
+5. Coordination and Adaptation:
+   - Agents continuously share their current tasks and locations.
+   - If one agent is blocked, the other gives priority and finds an alternative route.
+   - If all known empty shelves are delivered, both agents switch to exploration mode.
+
+Scenarios and Adaptations:
+
+1. Multiple Empty Shelves Found:
+   - Agent 1 communicates locations to Agent 2.
+   - Agent 2 can switch to retrieval mode if closer to an empty shelf than Agent 1.
+
+2. No Empty Shelves Found:
+   - Both agents switch to exploration mode, dividing the warehouse into sectors for efficient coverage.
+
+3. Congestion at Workstation:
+   - Implement a queue system. If workstation is occupied, the approaching agent waits in a nearby non-blocking position.
+
+4. One Agent Malfunctions:
+   - The functional agent takes on all tasks, prioritizing based on current warehouse needs.
+
+Task Breakdown:
+
+Agent 1 (Primary Retriever):
+1. Explore and map empty shelf locations.
+2. Retrieve empty shelves and deliver to workstation.
+3. Assist in returns if no retrievals are pending.
+
+Agent 2 (Primary Returner):
+1. Monitor workstation for delivered shelves.
+2. Return delivered shelves to return location.
+3. Assist in retrieval if no returns are pending.
+
+Both Agents:
+1. Continuously update shared knowledge of warehouse state.
+2. Adapt roles based on current efficiency needs.
+3. Avoid collisions by communicating intended paths.
+
+This strategy emphasizes efficient task division, adaptive role-switching, and constant communication to optimize the warehouse operations with just two agents.

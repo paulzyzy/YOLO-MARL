@@ -1,0 +1,6 @@
+<tasks assignment class>
+Available tasks for each agent:
+1. Target food 0
+2. Target food 1
+3. Pickup
+</tasks assignment class>

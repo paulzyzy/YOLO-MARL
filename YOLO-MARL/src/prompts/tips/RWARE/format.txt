@@ -1,0 +1,7 @@
+The planning function should look like: {planning_func_signature}.
+The returned llm_tasks should be in the <tasks assignment class> as given.
+Use processed_state to inform decision-making.
+The reward function should look like: {reward_func_signature}.
+You can use or import any necessary api you need to generate the code but don't write into class object.
+The generated function should only contain "planning_function" and "compute_reward", do not create new variables or subfunctions
+Strictly follow the size, shape and format of the action space and processed_state. 

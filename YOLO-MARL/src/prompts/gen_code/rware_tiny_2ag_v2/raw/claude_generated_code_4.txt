@@ -1,0 +1,106 @@
+Thank you for providing the detailed information about the RWARE environment and the required function formats. I'll now generate the planning_function and compute_reward function based on the given instructions and environment description. Here's my step-by-step thinking:
+
+1. Information provided in processed_states:
+   - Agent information (location, carrying status, direction, movement capabilities)
+   - Empty shelf positions
+   - Return locations
+   - Workstation locations
+
+2. Strategy analysis:
+   - Prioritize finding and delivering empty shelves to workstations
+   - Efficiently return shelves after delivery
+   - Coordinate agents to avoid conflicts and maximize efficiency
+   - Balance exploration and exploitation
+
+Now, I'll generate the two functions:
+
+<code>
+def planning_function(processed_state):
+    """
+    Determines optimal tasks for each agent based on the current state.
+    
+    Args:
+        processed_state: A dictionary containing global information for each agent and the positions of empty shelves observed by any agent.
+
+    Returns:
+        dict: Optimal tasks for each agent ('random explore','empty shelf','workstation','return')
+    """
+    agent_infos = processed_state['agent_infos']
+    empty_shelves_pos = processed_state['empty_shelves_pos']
+    return_locations = processed_state['return location']
+    workstation_locations = processed_state['workstation location']
+
+    tasks = {}
+    for i, agent_info in enumerate(agent_infos):
+        agent_key = f'agent_{i}'
+        
+        if agent_info['is_carrying_shelf']:
+            if agent_info['status of carried shelf']:
+                tasks[agent_key] = 'return'
+            else:
+                tasks[agent_key] = 'workstation'
+        else:
+            if empty_shelves_pos:
+                tasks[agent_key] = 'empty shelf'
+            else:
+                tasks[agent_key] = 'random explore'
+
+    return tasks
+
+def compute_reward(processed_state, llm_actions, actions):
+    """
+    Calculate rewards based on the tasks assigned and their outcomes.
+    
+    Args:
+        processed_state: returned from function process_state(state, p, f)
+        llm_actions (dict): dictionary of list of integers which means the suggest actions from llm for each agent.
+        actions (dict): dictionary of a integer action that actually perform by each agent.
+        
+    Returns:
+        reward: Dict containing rewards for each agent.
+    """
+    reward = {}
+    agent_infos = processed_state['agent_infos']
+    workstation_locations = processed_state['workstation location']
+    return_locations = processed_state['return location']
+
+    for agent_key, agent_action in actions.items():
+        agent_index = int(agent_key.split('_')[1])
+        agent_info = agent_infos[agent_index]
+        agent_location = agent_info['location']
+        
+        # Base reward
+        reward[agent_key] = 0
+        
+        # Reward for following LLM suggestion
+        if agent_action in llm_actions[agent_key]:
+            reward[agent_key] += 0.1
+        
+        # Reward for successful interactions
+        if agent_action == 4:  # Load/Unload action
+            if agent_info['is_carrying_shelf']:
+                if any(agent_location == wl for wl in workstation_locations):
+                    reward[agent_key] += 1.0  # Reward for delivering to workstation
+                elif any(agent_location == rl for rl in return_locations):
+                    reward[agent_key] += 0.5  # Reward for returning shelf
+            else:
+                if processed_state['empty_shelves_pos'] and any(agent_location == es for es in processed_state['empty_shelves_pos']):
+                    reward[agent_key] += 0.5  # Reward for picking up empty shelf
+
+        # Penalty for inaction
+        if agent_action == 0:  # Noop action
+            reward[agent_key] -= 0.1
+
+    return reward
+</code>
+
+These functions work together to improve agent cooperation:
+
+1. The planning_function assigns tasks based on the current state, prioritizing empty shelf delivery and efficient returns.
+
+2. The compute_reward function encourages:
+   - Following LLM suggestions
+   - Successful shelf interactions (pickup, delivery, return)
+   - Penalizes inaction
+
+This approach should lead to improved cooperation between agents in the RWARE environment.

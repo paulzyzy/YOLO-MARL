@@ -1,0 +1,7 @@
+<tasks assignment class>
+Available tasks for each agent:
+1. random explore
+2. empty shelf
+3. workstation
+4. return
+</tasks assignment class>

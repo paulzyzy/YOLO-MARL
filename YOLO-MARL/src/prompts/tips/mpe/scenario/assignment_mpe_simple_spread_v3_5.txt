@@ -1,0 +1,9 @@
+<tasks assignment class>
+Available tasks for each agent:
+1. Landmark_0
+2. Landmark_1
+3. Landmark_2
+4. Landmark_3
+5. Landmark_4
+6. No op
+</tasks assignment class>

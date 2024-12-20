@@ -1,0 +1,39 @@
+Based on the environment description and game rules provided, here's a concise and actionable set of instructions for the agents in the RWARE environment:
+
+Goal: Efficiently deliver empty shelves to workstations and return them to designated locations.
+
+Approach:
+
+1. Exploration Phase:
+   - If no empty shelves are observed, both agents engage in random exploration.
+   - Agents communicate their observations to avoid redundant exploration.
+
+2. Single Empty Shelf Scenario:
+   - The closest agent moves to pick up the empty shelf.
+   - The other agent continues exploration or moves towards a workstation.
+
+3. Multiple Empty Shelves Scenario:
+   - Agents coordinate to pick up different empty shelves.
+   - If more shelves than agents, prioritize based on proximity and workstation locations.
+
+4. Delivery Process:
+   - Loaded agents navigate to the nearest workstation using corridors.
+   - Unloaded agents continue exploration or prepare for the return phase.
+
+5. Return Phase:
+   - After delivery, agents immediately plan the return route to designated locations.
+   - Use corridors efficiently, avoiding collisions with other agents or shelves.
+
+6. Continuous Cycle:
+   - After completing a return, agents reassess the environment and restart from step 1.
+
+Coordination Strategies:
+- Agents regularly update each other on their status (loaded/unloaded) and location.
+- In case of potential collisions, prioritize the agent that would block others if stationary.
+- Alternate tasks between agents to ensure balanced workload and efficient coverage of the warehouse.
+
+Adaptive Behavior:
+- If an agent is blocked, it should communicate this to the other agent and request alternative routes or task reassignment.
+- Regularly re-evaluate the environment to adapt to new empty shelf locations or changes in workstation demands.
+
+By following these instructions, the agents should be able to efficiently coordinate their actions, adapt to different scenarios, and successfully complete their tasks in the RWARE environment.

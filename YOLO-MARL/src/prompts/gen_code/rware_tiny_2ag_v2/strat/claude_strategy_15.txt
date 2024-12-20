@@ -1,0 +1,52 @@
+Based on the environment description and game rules provided, here's a concise and actionable strategy for the two agents in the RWARE environment:
+
+Goal: Efficiently deliver empty shelves to workstations and return them to designated locations.
+
+Approach:
+
+1. Initial Exploration:
+   - Agents start with random exploration to locate empty shelves.
+   - Use a shared memory to map the warehouse layout and shelf locations.
+
+2. Task Assignment:
+   - Assign roles dynamically based on agent positions and current needs:
+     Agent A: Primary shelf retriever
+     Agent B: Workstation/return location handler
+
+3. Shelf Retrieval:
+   - Agent A focuses on locating and loading empty shelves.
+   - Use pathfinding to navigate efficiently while avoiding obstacles.
+   - Communicate shelf locations to Agent B.
+
+4. Delivery and Return:
+   - Agent B manages workstation deliveries and shelf returns.
+   - Coordinate with Agent A for efficient handoffs.
+   - Optimize routes between workstations and return locations.
+
+5. Adaptive Coordination:
+   - Swap roles if Agent B is closer to an empty shelf.
+   - Both agents assist in exploration when no immediate tasks are available.
+
+Scenarios and Adaptations:
+
+1. Multiple Empty Shelves:
+   - Prioritize shelves closest to workstations.
+   - Agent A retrieves, Agent B prepares for delivery.
+
+2. Blocked Pathways:
+   - Communicate blockages and recalculate routes.
+   - Use rotation actions to find alternative paths.
+
+3. Simultaneous Delivery Needs:
+   - Agent B prioritizes workstation delivery over returns.
+   - Agent A temporarily assists with deliveries if not carrying a shelf.
+
+4. No Empty Shelves Found:
+   - Both agents switch to exploration mode.
+   - Divide the warehouse into sectors for efficient coverage.
+
+5. One Agent Stuck:
+   - The free agent takes over both retrieval and delivery tasks.
+   - Stuck agent focuses on freeing itself and then resuming its role.
+
+By following this strategy, the agents should efficiently coordinate their actions to retrieve empty shelves, deliver them to workstations, and return them to the designated locations, adapting to various scenarios they may encounter in the warehouse environment.

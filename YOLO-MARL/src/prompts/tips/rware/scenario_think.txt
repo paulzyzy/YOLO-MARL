@@ -1,0 +1,5 @@
+<different scenario_think>
+1, If agent is not carrying the shelf: 'is_carrying_shelf' is False.
+2, If agent is carrying an empty shelf: is_carrying_shelf is True and 'status of carried shelf' is False. 
+3, If agent is carrying a not empty shelf: is_carrying_shelf is True and 'status of carried shelf' is True. 
+</different scenario_think>

@@ -1,0 +1,50 @@
+Based on the environment description and game rules provided, here's a concise, clear, and actionable set of instructions for the agents in the RWARE environment:
+
+1. Goal: Efficiently pick up empty shelves, deliver them to the workstation, and return them to the designated return location.
+
+2. Problem: Coordinating two agents to navigate the warehouse, avoid collisions, and optimize the delivery process.
+
+3. Approach / Methodology:
+   a. Scan the environment for empty shelves
+   b. Navigate to and pick up empty shelves
+   c. Deliver empty shelves to the workstation
+   d. Return shelves to the designated return location
+   e. Repeat the process
+
+4. Scenarios and Adaptations:
+   a. If not carrying a shelf:
+      - Search for the nearest empty shelf
+      - Navigate using the most direct path (can move beneath shelves)
+   b. If carrying an empty shelf:
+      - Navigate to the workstation using corridors
+      - Avoid other shelves and agents
+   c. If carrying a non-empty shelf:
+      - Navigate to the return location using corridors
+      - Avoid other shelves and agents
+
+5. Task Breakdown:
+   Agent 1:
+   - Focus on picking up empty shelves from one half of the warehouse
+   - Deliver to workstation when an empty shelf is found
+   - Return shelves to the designated return location
+
+   Agent 2:
+   - Focus on picking up empty shelves from the other half of the warehouse
+   - Deliver to workstation when an empty shelf is found
+   - Return shelves to the designated return location
+
+   Coordination:
+   - Communicate intended paths to avoid collisions
+   - If both agents are near the same empty shelf, the closer one should pursue it
+   - Alternate use of the workstation and return location to prevent bottlenecks
+
+Action Priorities:
+1. If not carrying a shelf: Move towards the nearest empty shelf
+2. If carrying an empty shelf: Move towards the workstation
+3. If at workstation with an empty shelf: Unload the shelf
+4. If carrying a non-empty shelf: Move towards the return location
+5. If at return location with a non-empty shelf: Unload the shelf
+6. Rotate to face the intended direction of movement
+7. Move forward when path is clear
+
+By following these instructions, the agents should efficiently coordinate their actions to pick up, deliver, and return shelves in the warehouse environment.

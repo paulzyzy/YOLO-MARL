@@ -1,0 +1,112 @@
+I understand the task and will generate the planning and reward functions based on the provided information and requirements. Let's think through this step-by-step:
+
+1. Information provided in processed_states:
+   - Agent information (location, carrying status, direction, movement capabilities)
+   - Empty shelf positions
+   - Return locations
+   - Workstation locations
+
+2. Strategy analysis:
+   - Prioritize picking up empty shelves
+   - Deliver empty shelves to workstations
+   - Return shelves to return locations
+   - Coordinate agents to avoid conflicts and optimize movements
+
+Now, let's generate the two functions:
+
+<code>
+def planning_function(processed_state):
+    """
+    Determines optimal tasks for each agent based on the current state.
+    
+    Args:
+        processed_state: A dictionary containing global information for each agent and the positions of empty shelves observed by any agent.
+
+    Returns:
+        dict: Optimal tasks for each agent ('random explore','empty shelf','workstation','return')
+    """
+    llm_tasks = {}
+    agent_infos = processed_state['agent_infos']
+    empty_shelves_pos = processed_state['empty_shelves_pos']
+    return_locations = processed_state.get('return location', [])
+    workstation_locations = processed_state.get('workstation location', [])
+
+    for i, agent_info in enumerate(agent_infos):
+        agent_key = f'agent_{i}'
+        
+        if agent_info['is_carrying_shelf']:
+            if agent_info['status of carried shelf']:
+                # If carrying a non-empty shelf, return it
+                llm_tasks[agent_key] = 'return'
+            else:
+                # If carrying an empty shelf, deliver to workstation
+                llm_tasks[agent_key] = 'workstation'
+        else:
+            if empty_shelves_pos:
+                # If there are empty shelves, go pick one up
+                llm_tasks[agent_key] = 'empty shelf'
+            else:
+                # If no empty shelves visible, explore randomly
+                llm_tasks[agent_key] = 'random explore'
+
+    return llm_tasks
+
+def compute_reward(processed_state, llm_actions, actions):
+    """
+    Calculate rewards based on the tasks assigned and their outcomes.
+    
+    Args:
+        processed_state: returned from function process_state(state, p, f)
+        llm_actions (dict): dictionary of list of integers which means the suggest actions from llm for each agent.
+        actions (dict): dictionary of a integer action that actually perform by each agent.
+        
+    Returns:
+        reward: Dict containing rewards for each agent.
+    """
+    reward = {}
+    agent_infos = processed_state['agent_infos']
+    empty_shelves_pos = processed_state['empty_shelves_pos']
+    return_locations = processed_state.get('return location', [])
+    workstation_locations = processed_state.get('workstation location', [])
+
+    for agent_key, action in actions.items():
+        agent_index = int(agent_key.split('_')[1])
+        agent_info = agent_infos[agent_index]
+        suggested_actions = llm_actions[agent_key]
+        
+        base_reward = 0
+        
+        # Reward for following LLM suggestions
+        if action in suggested_actions:
+            base_reward += 0.1
+        
+        # Reward for successful actions
+        if action == 4:  # Load/Unload action
+            if agent_info['is_carrying_shelf']:
+                if agent_info['location'] in workstation_locations:
+                    base_reward += 1.0  # Successfully delivered to workstation
+                elif agent_info['location'] in return_locations:
+                    base_reward += 0.5  # Successfully returned shelf
+            else:
+                if agent_info['location'] in empty_shelves_pos:
+                    base_reward += 0.5  # Successfully picked up empty shelf
+
+        # Penalty for inaction
+        if action == 0:  # Noop
+            base_reward -= 0.1
+
+        reward[agent_key] = base_reward
+
+    return reward
+</code>
+
+These functions work together to improve agent cooperation:
+
+1. The planning function assigns tasks based on the current state, prioritizing empty shelf pickup, delivery to workstations, and returning shelves.
+
+2. The reward function encourages:
+   - Following LLM suggestions
+   - Successful task completion (pickup, delivery, return)
+   - Penalizes inaction
+
+This approach should lead to efficient coordination between agents in the warehouse environment.

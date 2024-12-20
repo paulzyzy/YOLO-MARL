@@ -1,0 +1,130 @@
+I understand the task and the provided information. Let's think through this step-by-step:
+
+1. Information in processed_states:
+   - Agent positions, directions, and status (carrying shelf or not)
+   - Empty shelf positions
+   - Return locations
+   - Workstation locations
+
+2. Strategy analysis:
+   - Agents should prioritize picking up empty shelves
+   - Deliver empty shelves to workstations
+   - Return non-empty shelves to return locations
+   - Avoid conflicts between agents
+   - Explore when no immediate tasks are available
+
+Now, let's generate the two functions:
+
+<code>
+def planning_function(processed_state):
+    """
+    Determines optimal tasks for each agent based on the current state.
+    
+    Args:
+        processed_state: A dictionary containing global information for each agent and the positions of empty shelves observed by any agent.
+
+    Returns:
+        dict: Optimal tasks for each agent ('random explore','empty shelf','workstation','return')
+    """
+    agent_infos = processed_state['agent_infos']
+    empty_shelves_pos = processed_state['empty_shelves_pos']
+    return_locations = processed_state.get('return location', [])
+    workstation_locations = processed_state.get('workstation location', [])
+    
+    tasks = {}
+    assigned_shelves = set()
+    
+    for i, agent_info in enumerate(agent_infos):
+        agent_key = f'agent_{i}'
+        
+        if agent_info['is_carrying_shelf']:
+            if agent_info['status of carried shelf']:
+                tasks[agent_key] = 'return'
+            else:
+                tasks[agent_key] = 'workstation'
+        else:
+            if empty_shelves_pos:
+                nearest_shelf = min(empty_shelves_pos, key=lambda pos: sum(abs(a - b) for a, b in zip(pos, agent_info['location'])))
+                if nearest_shelf not in assigned_shelves:
+                    tasks[agent_key] = 'empty shelf'
+                    assigned_shelves.add(nearest_shelf)
+                else:
+                    tasks[agent_key] = 'random explore'
+            else:
+                tasks[agent_key] = 'random explore'
+    
+    return tasks
+
+def compute_reward(processed_state, llm_actions, actions):
+    """
+    Calculate rewards based on the tasks assigned and their outcomes.
+    
+    Args:
+        processed_state: returned from function process_state(state, p, f)
+        llm_actions (dict): dictionary of list of integers which means the suggest actions from llm for each agent.
+        actions (dict): dictionary of a integer action that actually perform by each agent.
+        
+    Returns:
+        reward: Dict containing rewards for each agent.
+    """
+    rewards = {}
+    agent_infos = processed_state['agent_infos']
+    empty_shelves_pos = processed_state['empty_shelves_pos']
+    return_locations = processed_state.get('return location', [])
+    workstation_locations = processed_state.get('workstation location', [])
+
+    for agent_key, action in actions.items():
+        agent_index = int(agent_key.split('_')[1])
+        agent_info = agent_infos[agent_index]
+        suggested_actions = llm_actions[agent_key]
+        reward = 0
+
+        # Reward for following LLM suggestion
+        if action in suggested_actions:
+            reward += 0.1
+
+        # Reward for moving towards objectives
+        if not agent_info['is_carrying_shelf'] and empty_shelves_pos:
+            nearest_shelf = min(empty_shelves_pos, key=lambda pos: sum(abs(a - b) for a, b in zip(pos, agent_info['location'])))
+            if sum(abs(a - b) for a, b in zip(nearest_shelf, agent_info['location'])) == 0 and action == 4:
+                reward += 1  # Picked up an empty shelf
+            elif action == 1 and agent_info['can_move_forward']:
+                new_distance = sum(abs(a - b) for a, b in zip(nearest_shelf, [agent_info['location'][0], agent_info['location'][1] - 1]))
+                old_distance = sum(abs(a - b) for a, b in zip(nearest_shelf, agent_info['location']))
+                if new_distance < old_distance:
+                    reward += 0.1
+
+        elif agent_info['is_carrying_shelf']:
+            if agent_info['status of carried shelf']:
+                nearest_return = min(return_locations, key=lambda pos: sum(abs(a - b) for a, b in zip(pos, agent_info['location']))) if return_locations else None
+                if nearest_return:
+                    if sum(abs(a - b) for a, b in zip(nearest_return, agent_info['location'])) == 0 and action == 4:
+                        reward += 1  # Returned a non-empty shelf
+                    elif action == 1 and agent_info['can_move_forward']:
+                        new_distance = sum(abs(a - b) for a, b in zip(nearest_return, [agent_info['location'][0], agent_info['location'][1] - 1]))
+                        old_distance = sum(abs(a - b) for a, b in zip(nearest_return, agent_info['location']))
+                        if new_distance < old_distance:
+                            reward += 0.1
+            else:
+                nearest_workstation = min(workstation_locations, key=lambda pos: sum(abs(a - b) for a, b in zip(pos, agent_info['location']))) if workstation_locations else None
+                if nearest_workstation:
+                    if sum(abs(a - b) for a, b in zip(nearest_workstation, agent_info['location'])) == 0 and action == 4:
+                        reward += 1  # Delivered an empty shelf to workstation
+                    elif action == 1 and agent_info['can_move_forward']:
+                        new_distance = sum(abs(a - b) for a, b in zip(nearest_workstation, [agent_info['location'][0], agent_info['location'][1] - 1]))
+                        old_distance = sum(abs(a - b) for a, b in zip(nearest_workstation, agent_info['location']))
+                        if new_distance < old_distance:
+                            reward += 0.1
+
+        rewards[agent_key] = reward
+
+    return rewards
+</code>
+
+These functions work together to improve agent cooperation:
+
+1. The planning function assigns tasks based on the current state, prioritizing empty shelf pickup, delivery to workstations, and returning non-empty shelves. It also avoids conflicts by assigning different shelves to different agents.
+
+2. The reward function encourages agents to follow the LLM suggestions and rewards progress towards their assigned tasks. It provides larger rewards for completing key objectives (picking up empty shelves, delivering to workstations, returning non-empty shelves) and smaller rewards for making progress towards these objectives.
+
+This approach should lead to efficient cooperation between agents in the warehouse environment.

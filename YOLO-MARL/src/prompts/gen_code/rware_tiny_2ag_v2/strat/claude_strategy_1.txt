@@ -1,0 +1,49 @@
+Based on the environment description and game rules provided, here's a strategic approach for the two agents in the RWARE environment:
+
+1. Goal: Efficiently pick up empty shelves, deliver them to the workstation location, and return them to the designated return location.
+
+2. Problem: Coordinating two agents to navigate the warehouse, avoid collisions, and optimize shelf delivery and return processes.
+
+3. Approach / Methodology:
+   a. Divide the warehouse into zones for each agent to reduce interference.
+   b. Implement a priority system for task allocation.
+   c. Use a communication system for agents to share their current status and intentions.
+
+4. Scenarios and Adaptations:
+   a. When both agents are unloaded: Focus on exploring and finding empty shelves.
+   b. When one agent is loaded and one is unloaded: Loaded agent prioritizes delivery, unloaded agent focuses on finding new empty shelves.
+   c. When both agents are loaded: Coordinate movements to avoid blocking each other en route to workstations.
+
+5. Task Breakdown:
+
+Agent 1 and Agent 2:
+1. Explore and Locate:
+   - If not carrying a shelf, explore the assigned zone to find empty shelves.
+   - Use random explore task when no empty shelves are visible.
+   - Communicate the location of found empty shelves to the other agent.
+
+2. Pick Up:
+   - When an empty shelf is located, move to the shelf's location.
+   - Use the Load action to pick up the empty shelf.
+   - Communicate the successful pickup to the other agent.
+
+3. Deliver:
+   - Once loaded with an empty shelf, navigate to the workstation location.
+   - Use corridors and avoid obstacles when carrying a shelf.
+   - If the path is blocked by the other agent, communicate and coordinate movements.
+
+4. Unload at Workstation:
+   - Upon reaching the workstation, unload the empty shelf.
+   - Communicate the successful delivery to trigger the return phase.
+
+5. Return:
+   - After unloading at the workstation, navigate to the return location.
+   - Pick up the shelf at the return location (now considered not empty).
+   - Return the shelf to its original location in the warehouse.
+
+6. Coordination:
+   - Regularly update each other on current tasks and locations.
+   - If one agent is stuck or inefficient, the other can temporarily expand its zone to assist.
+   - Alternate between close and far deliveries to maintain efficiency and coverage.
+
+By following this strategy, the two agents can efficiently coordinate their actions to continuously cycle through finding empty shelves, delivering them to the workstation, and returning them to their designated locations, while adapting to different scenarios and avoiding conflicts.

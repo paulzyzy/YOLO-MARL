@@ -1,0 +1,11 @@
+def planning_function(processed_state):
+    """
+    Determines optimal tasks for each agent based on the current state.
+    
+    Args:
+        processed_state: A tuple containing food location and level, agent position and level.
+
+    Returns:
+        dict: Optimal tasks for each agent ('No op','Target food 0','Target food 1','Pickup')
+    """
+    return llm_tasks

@@ -1,0 +1,38 @@
+Based on the given environment description and game rules, I'll provide a strategic approach for the multi-agent reinforcement learning task in the RWARE environment. Here's a concise and actionable set of instructions:
+
+1. Goal: Efficiently deliver empty shelves to workstations and return them to designated locations using two coordinated agents.
+
+2. Problem: Coordinate two agents to explore, locate, transport, and return shelves while avoiding conflicts and optimizing movement.
+
+3. Approach:
+   a. Exploration Phase: Agents search for empty shelves
+   b. Pickup Phase: Agents load empty shelves
+   c. Delivery Phase: Agents transport shelves to workstations
+   d. Return Phase: Agents return shelves to designated locations
+
+4. Scenarios and Adaptations:
+   a. No empty shelves: Both agents perform random exploration
+   b. One empty shelf: One agent pursues the shelf, the other continues exploration
+   c. Multiple empty shelves: Agents target closest shelves to minimize travel
+   d. One agent carrying, one empty shelf: Free agent pursues the shelf
+   e. One agent carrying, multiple shelves: Free agent targets closest shelf
+   f. Conflict avoidance: Implement a priority system based on current tasks and positions
+
+5. Task Breakdown:
+   Agent 1 and Agent 2:
+   a. Explore: Perform random exploration when no empty shelves are visible
+   b. Target: Move towards the nearest empty shelf when observed
+   c. Load: Pick up the shelf when in the correct position
+   d. Transport: Navigate to the nearest workstation while avoiding obstacles
+   e. Unload: Drop off the shelf at the workstation
+   f. Return: Navigate to the designated return location
+   g. Communicate: Share information about shelf locations and current tasks
+
+Coordination Strategy:
+1. Prioritize agents based on their current task and position
+2. Implement a simple collision avoidance system
+3. Share information about shelf locations to optimize exploration
+4. Alternate between agents for shelf pickup when multiple shelves are available
+5. When one agent is carrying a shelf, the other focuses on finding the next empty shelf
+
+By following these instructions, the agents should be able to efficiently coordinate their actions, minimize conflicts, and successfully complete the task of delivering and returning empty shelves in the RWARE environment.

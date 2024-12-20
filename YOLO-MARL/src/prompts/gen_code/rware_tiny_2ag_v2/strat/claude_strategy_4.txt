@@ -1,0 +1,70 @@
+Based on the environment description and game rules provided, I'll outline a strategy for the two agents in the RWARE environment to efficiently deliver empty shelves and return them.
+
+Goal: Maximize the delivery of empty shelves to workstations and their subsequent return to designated locations.
+
+Approach:
+
+1. Agent Role Assignment:
+   - Agent A: Primary explorer and empty shelf locator
+   - Agent B: Secondary explorer and workstation/return point specialist
+
+2. Exploration and Shelf Location:
+   - Both agents start with random exploration if no empty shelves are visible
+   - Agent A prioritizes finding empty shelves
+   - Agent B focuses on identifying workstation and return locations
+
+3. Empty Shelf Retrieval:
+   - When an empty shelf is located, the nearest available agent moves to retrieve it
+   - If both agents are equidistant, Agent A takes priority
+
+4. Delivery Process:
+   - The agent carrying an empty shelf navigates to the nearest workstation
+   - The other agent continues exploration or moves towards known return locations
+
+5. Return Process:
+   - After delivery, the agent at the workstation waits for the shelf to be emptied
+   - Once empty, the agent returns the shelf to the nearest return location
+
+6. Coordination and Communication:
+   - Agents share information about discovered empty shelves, workstations, and return locations
+   - They coordinate movements to avoid collisions and optimize paths
+
+Scenario Adaptations:
+
+1. Both agents not carrying shelves:
+   - Prioritize exploration and empty shelf location
+   - Agent A focuses on shelf discovery, Agent B on workstation/return point mapping
+
+2. One agent carrying an empty shelf:
+   - Carrying agent navigates to nearest workstation
+   - Free agent continues exploration or moves to known return locations
+
+3. One agent carrying a non-empty shelf:
+   - Carrying agent immediately heads to nearest return location
+   - Free agent prioritizes finding new empty shelves
+
+4. Both agents carrying shelves:
+   - Agent with empty shelf prioritizes workstation delivery
+   - Agent with non-empty shelf heads to return location
+
+5. Single empty shelf observed:
+   - Nearest non-carrying agent is assigned to retrieve it
+   - Other agent continues current task or prepares for next step in process
+
+Task Breakdown:
+
+Agent A:
+1. Explore warehouse, prioritizing empty shelf discovery
+2. Retrieve nearest empty shelf when found
+3. Deliver empty shelf to workstation
+4. Return empty shelf to return location
+5. Share discovered shelf/location information with Agent B
+
+Agent B:
+1. Explore warehouse, focusing on workstation and return location mapping
+2. Assist in empty shelf retrieval when needed
+3. Deliver empty shelves to workstations when Agent A is occupied
+4. Return empty shelves to return locations
+5. Share discovered location information with Agent A
+
+By following this strategy, the agents should efficiently coordinate their actions to maximize the delivery and return of empty shelves in the RWARE environment.

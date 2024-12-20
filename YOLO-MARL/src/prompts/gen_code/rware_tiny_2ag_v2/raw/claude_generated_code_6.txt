@@ -1,0 +1,101 @@
+I understand the task and requirements. Let's think through this step-by-step:
+
+1. Information provided in processed_states:
+   - Agent locations, directions, and whether they're carrying shelves
+   - Positions of empty shelves
+   - Workstation locations
+   - Return locations
+   - Status of carried shelves (empty or not)
+
+2. Strategy analysis:
+   - Prioritize finding and delivering empty shelves
+   - Coordinate agents to avoid conflicts and optimize efficiency
+   - Balance exploration and targeted movement
+   - Encourage agents to complete their assigned tasks
+
+Now, let's generate the two functions:
+
+<code>
+def planning_function(processed_state):
+    """
+    Determines optimal tasks for each agent based on the current state.
+    """
+    agent_infos = processed_state['agent_infos']
+    empty_shelves_pos = processed_state['empty_shelves_pos']
+    workstation_locations = processed_state['workstation location']
+    return_locations = processed_state['return location']
+
+    tasks = {}
+    available_agents = []
+
+    for i, agent in enumerate(agent_infos):
+        agent_key = f'agent_{i}'
+        if not agent['is_carrying_shelf']:
+            available_agents.append((i, agent['location']))
+
+        if agent['is_carrying_shelf']:
+            if agent['status of carried shelf']:
+                tasks[agent_key] = 'return'
+            else:
+                tasks[agent_key] = 'workstation'
+        else:
+            tasks[agent_key] = 'random explore'
+
+    if empty_shelves_pos and available_agents:
+        closest_agent = min(available_agents, key=lambda x: min(abs(x[1][0] - shelf[0]) + abs(x[1][1] - shelf[1]) for shelf in empty_shelves_pos))
+        tasks[f'agent_{closest_agent[0]}'] = 'empty shelf'
+
+    return tasks
+
+def compute_reward(processed_state, llm_actions, actions):
+    """
+    Calculate rewards based on the tasks assigned and their outcomes.
+    """
+    rewards = {}
+    agent_infos = processed_state['agent_infos']
+    empty_shelves_pos = processed_state['empty_shelves_pos']
+    workstation_locations = processed_state['workstation location']
+    return_locations = processed_state['return location']
+
+    for i, (agent_info, llm_action, action) in enumerate(zip(agent_infos, llm_actions.values(), actions.values())):
+        agent_key = f'agent_{i}'
+        reward = 0
+
+        # Reward for following LLM suggestions
+        if action in llm_action:
+            reward += 0.1
+
+        # Reward for task completion
+        if action == 4:  # Load/Unload action
+            if not agent_info['is_carrying_shelf']:
+                if agent_info['location'] in empty_shelves_pos:
+                    reward += 1.0  # Successfully picked up an empty shelf
+            else:
+                if agent_info['location'] in workstation_locations and not agent_info['status of carried shelf']:
+                    reward += 2.0  # Successfully delivered an empty shelf to workstation
+                elif agent_info['location'] in return_locations and agent_info['status of carried shelf']:
+                    reward += 1.5  # Successfully returned a non-empty shelf
+
+        # Penalty for incorrect actions
+        if agent_info['is_carrying_shelf'] and action == 4 and agent_info['location'] not in workstation_locations + return_locations:
+            reward -= 0.5  # Penalize for trying to unload at incorrect location
+
+        # Encourage exploration when not carrying a shelf
+        if not agent_info['is_carrying_shelf'] and action in [1, 2, 3]:
+            reward += 0.05
+
+        rewards[agent_key] = reward
+
+    return rewards
+</code>
+
+These functions work together to improve agent cooperation:
+
+1. The planning function assigns tasks based on the current state, prioritizing empty shelf collection and delivery.
+2. The reward function encourages following LLM suggestions, completing tasks, and exploring efficiently.
+3. Both functions consider the positions of empty shelves, workstations, and return locations to guide agent behavior.
+4. The reward function provides higher rewards for successful deliveries and returns, promoting the main objective.
+5. Penalties are applied for incorrect actions to discourage undesirable behavior.
+6. Exploration is encouraged when agents are not carrying shelves, helping to discover new empty shelves.
+
+This approach should lead to improved cooperation between agents in completing the warehouse tasks efficiently.

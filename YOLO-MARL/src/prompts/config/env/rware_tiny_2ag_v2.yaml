@@ -1,0 +1,5 @@
+name: rware_tiny_2ag_v2
+n_agents: 2
+limit: 500
+
+# description: This Level-based Foraging (LBF) is a multi-agent environment for RL. Agents navigate a grid world and collect food by cooperating with other agents. Agents can navigate the environment and can attempt to collect food placed next to them. The collection of food is successful only if all agents attempt to load it simultaneously.

@@ -1,0 +1,39 @@
+Based on the environment description and game rules provided, here's a strategic approach for the multi-agent reinforcement learning in the RWARE environment:
+
+1. Goal: Efficiently deliver empty shelves to workstations and return them to designated locations using two coordinated agents.
+
+2. Problem: Coordinate two agents to find, deliver, and return empty shelves while avoiding conflicts and optimizing movement.
+
+3. Approach / Methodology:
+   a. Exploration and Detection: Both agents explore the warehouse to locate empty shelves.
+   b. Task Assignment: Assign tasks based on agent positions and current states.
+   c. Pickup and Delivery: Agents pick up empty shelves and deliver them to workstations.
+   d. Return: After delivery, agents return shelves to designated return locations.
+   e. Continuous Cycle: Repeat the process for newly requested empty shelves.
+
+4. Scenarios and Adaptations:
+   a. Single Empty Shelf: Assign the nearest agent to collect it.
+   b. Multiple Empty Shelves: Distribute tasks between agents based on proximity.
+   c. One Agent Carrying: The free agent focuses on finding new empty shelves.
+   d. Both Agents Carrying: Prioritize delivery and return tasks.
+   e. Potential Collisions: Implement a priority system for movement conflicts.
+
+5. Task Breakdown:
+   Agent 1 and Agent 2:
+   a. Explore: Move through the warehouse, avoiding occupied spaces.
+   b. Detect: Identify empty shelves and workstation locations.
+   c. Pickup: When an empty shelf is found, move beneath it and load.
+   d. Deliver: Navigate to the workstation, avoiding obstacles if carrying a shelf.
+   e. Unload: Place the shelf at the workstation.
+   f. Return: After delivery, locate and move to the return location.
+   g. Replace: Return the shelf to its designated spot.
+   h. Communicate: Share information about found shelves and completed tasks.
+
+Coordination Strategies:
+1. Priority Movement: When paths conflict, prioritize the agent carrying a shelf.
+2. Task Distribution: Assign tasks based on agent proximity and current load status.
+3. Information Sharing: Agents communicate discovered empty shelf locations.
+4. Avoid Redundancy: Ensure agents don't target the same empty shelf simultaneously.
+5. Adaptive Role Switching: Agents can switch between exploration and delivery roles based on the current situation.
+
+By following this strategy, the agents should efficiently coordinate their actions to locate, deliver, and return empty shelves while minimizing conflicts and optimizing their movements within the warehouse environment.

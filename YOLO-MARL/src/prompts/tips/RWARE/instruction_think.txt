@@ -1,0 +1,10 @@
+<instruction_format>
+Here a general guideline for generating strategies:
+1.Goal or Purpose: Clearly state the overall objective of the task. What is the mission or target the agents must achieve?
+2.Problem or Need: Thinking about different scenerios and identify the key problem or need that the task plan addresses.
+3.Approach / Methodology: Describe the overall approach or methodology step-by-step that will be followed.
+4.Scenerios Think: Consider different scenerios that agent could be at during task execution, and how agents coordinated to adapt.
+5.Task Breakdown: Try to break down tasks, detailing the roles and responsibilities of each agent, and how they will coordinate to achieve the overall objective. Clarify how each step contributes to the success of the mission.
+</instruction_format>
+
+Please analysis the environment descrition and think about what is the proper strategies carefully and provide a concise, clear, and actionable set of instructions.

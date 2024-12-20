@@ -1,0 +1,6 @@
+<Game rules>
+1. The Pickup action is successful if all the agents pickup the same target together.
+2. The Pickup action of food is successful only if the sum of the levels of the agents is equal to or higher than the level of the food.
+3. The Pickup action is only allow if the agent are on the position with distance of 1 relative to food.
+4. Success Condition: All food are picked up before {time_steps} steps.
+</Game rules>

@@ -1,0 +1,4 @@
+<Game rules>
+1. Agents must cover all landmarks minimizing distances between each landmark, with each agent go to a unique landmark.
+2. Agents cannot be collision with another agent. The collision threshold is 0.3.
+</Game rules>

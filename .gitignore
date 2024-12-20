@@ -1,0 +1,16 @@
+/results
+/__pycache__
+__pycache__
+*.pyc
+test*
+*.pth
+*.jpg
+*.png
+/DS_Store
+weights
+LLM_results/
+.vscode
+MAPPO_results/
+*.zip
+wandb/
+/YOLO-MARL/src/prompts/outputs
