@@ -57,13 +57,6 @@ python src/main.py --config=qmix --env-config=sc2 with env_args.map_name="3s5z"
 
 Below, we provide the base environment and key / map name for all the environments evaluated in the "Benchmarking Multi-Agent Deep Reinforcement Learning Algorithms in Cooperative Tasks":
 
-- Matrix games: all with `--env-config=gymma with env_args.time_limit=25 env_args.key="..."`
-  - Climbing: `matrixgames:climbing-nostate-v0`
-  - Penalty $k=0$: `matrixgames:penalty-0-nostate-v0`
-  - Penalty $k=-25$: `matrixgames:penalty-25-nostate-v0`
-  - Penalty $k=-50$: `matrixgames:penalty-50-nostate-v0`
-  - Penalty $k=-75$: `matrixgames:penalty-75-nostate-v0`
-  - Penalty $k=-100$: `matrixgames:penalty-100-nostate-v0`
 - LBF: all with `--env-config=gymma with env_args.time_limit=50 env_args.key="..."`
   - 8x8-2p-2f-coop: `lbforaging:Foraging-8x8-2p-2f-coop-v3`
   - 8x8-2p-2f-2s-coop: `lbforaging:Foraging-2s-8x8-2p-2f-coop-v3`
@@ -81,12 +74,6 @@ Below, we provide the base environment and key / map name for all the environmen
   - simple spread: `pz-mpe-simple-spread-v3`
   - simple adversary: `pz-mpe-simple-adversary-v3` with additional `env_args.pretrained_wrapper="PretrainedAdversary"`
   - simple tag: `pz-mpe-simple-tag-v3` with additional `env_args.pretrained_wrapper="PretrainedTag"`
-- SMAC: all with `--env-config=sc2 with env_args.map_name="..."`
-  - 2s_vs_1sc: `2s_vs_1sc`
-  - 3s5z: `3s5z`
-  - corridor: `corridor`
-  - MMM2: `MMM2`
-  - 3s_vs_5z: `3s_vs_5z`
 
 # Citing YOLO-MARL
 We are still working on SMAC and hope we will update the SMAC part soon.
