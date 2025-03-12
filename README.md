@@ -76,4 +76,12 @@ Below, we provide the base environment and key / map name for all the environmen
   - simple tag: `pz-mpe-simple-tag-v3` with additional `env_args.pretrained_wrapper="PretrainedTag"`
 
 # Citing YOLO-MARL
-We are still working on SMAC and hope we will update the SMAC part soon.
+@misc{zhuang2024yolomarlllmmultiagentreinforcement,
+      title={YOLO-MARL: You Only LLM Once for Multi-agent Reinforcement Learning}, 
+      author={Yuan Zhuang and Yi Shen and Zhili Zhang and Yuxiao Chen and Fei Miao},
+      year={2024},
+      eprint={2410.03997},
+      archivePrefix={arXiv},
+      primaryClass={cs.MA},
+      url={https://arxiv.org/abs/2410.03997}, 
+}
