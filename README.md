@@ -79,10 +79,10 @@ Below, we provide the base environment and key / map name for all the environmen
 
 # Citing YOLO-MARL
 ```
-@article{zhuang2024yolomarlllmmultiagentreinforcement,
-      title={YOLO-MARL: You Only LLM Once for Multi-agent Reinforcement Learning}, 
+@article{zhuang2025yolomarlllmmultiagentreinforcement,
+      title={YOLO-MARL: You Only LLM Once for Multi-Agent Reinforcement Learning}, 
       author={Yuan Zhuang and Yi Shen and Zhili Zhang and Yuxiao Chen and Fei Miao},
-      year={2024},
+      year={2025},
       eprint={2410.03997},
       archivePrefix={arXiv},
       primaryClass={cs.MA},
