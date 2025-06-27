@@ -2,6 +2,8 @@
 
 This is the official repository for the paper ["YOLO-MARL: You Only LLM Once for Multi-agent Reinforcement Learning"](https://arxiv.org/abs/2410.03997).
 
+The paper is officially accepted by IROS 2025🚀🚀🚀
+
 ![Framework Diagram](https://github.com/paulzyzy/YOLO-MARL/blob/master/framework.png)
 
 YOLO-MARL supports both ChatGPT and Claude. Please put your api KEY in the YOLO-MARL/ and name it claude_KEY.txt or openai_KEY.txt.
